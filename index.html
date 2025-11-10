@@ -5,29 +5,98 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="images/gift.png" type="image/x-icon">
   <link rel="stylesheet" href="css/index.css">
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Document Title -->
-  <title>FLOWERS FOR SOMEONE</title>
+  <title>Birthday Experience 🎂✨</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .hub-body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      min-height: 100vh !important;
+    }
+
+    .card-link {
+      transition: all 0.3s ease;
+    }
+
+    .card-link:hover {
+      transform: scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+  </style>
 </head>
 
-<body>
-  <!-- Background -->
-  <div class="night"></div>
+<body class="hub-body">
+  <div class="min-h-screen flex items-center justify-center p-4">
+    <div class="text-center">
+      <h1 class="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
+        🎂 Birthday Experience 🎁
+      </h1>
+      <p class="text-xl text-white opacity-90 mb-12 drop-shadow">
+        Untuk Liaa Marsyaa dengan sepenuh hati 💝
+      </p>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-8">
+        <!-- Scene 1 -->
+        <a href="liakss.html" class="card-link bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl">
+          <div class="text-5xl mb-4">👋</div>
+          <h2 class="text-2xl font-bold text-[#667eea] mb-2">Scene 1</h2>
+          <p class="text-gray-600 font-semibold">Opening Greeting</p>
+          <p class="text-sm text-gray-500 mt-2">"Haii Liaa~"</p>
+        </a>
 
-  <!-- Title -->
-  <h1 class="title"></h1>
+        <!-- Scene 2 -->
+        <a href="cake.html" class="card-link bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl">
+          <div class="text-5xl mb-4">🍰</div>
+          <h2 class="text-2xl font-bold text-[#ff8fab] mb-2">Scene 2</h2>
+          <p class="text-gray-600 font-semibold">Birthday Cake</p>
+          <p class="text-sm text-gray-500 mt-2">Klik kue, tiup lilin</p>
+        </a>
 
-  <!-- Button -->
-  <div style="position: absolute; top: 60vh; width: 100%; display: flex; justify-content: center;">
-    <a href="flower.html" class="btn">
-      <svg height="24" width="24" fill="#FFFFFF" viewBox="0 0 24 24" data-name="Layer 1" id="Layer_1" class="sparkle">
-        <path
-          d="M10,21.236,6.755,14.745.264,11.5,6.755,8.255,10,1.764l3.245,6.491L19.736,11.5l-6.491,3.245ZM18,21l1.5,3L21,21l3-1.5L21,18l-1.5-3L18,18l-3,1.5ZM19.333,4.667,20.5,7l1.167-2.333L24,3.5,21.667,2.333,20.5,0,19.333,2.333,17,3.5Z">
-        </path>
-      </svg>
+        <!-- Scene 3 -->
+        <a href="gift.html" class="card-link bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl">
+          <div class="text-5xl mb-4">🎁</div>
+          <h2 class="text-2xl font-bold text-[#ff6b9d] mb-2">Scene 3</h2>
+          <p class="text-gray-600 font-semibold">Gift Box</p>
+          <p class="text-sm text-gray-500 mt-2">Klik hadiah!</p>
+        </a>
 
-      <span class="text">Open</span>
-    </a>
+        <!-- Scene 4 -->
+        <a href="flower.html" class="card-link bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl">
+          <div class="text-5xl mb-4">🌸</div>
+          <h2 class="text-2xl font-bold text-[#a7ffee] mb-2">Scene 4</h2>
+          <p class="text-gray-600 font-semibold">Bunga Tumbuh</p>
+          <p class="text-sm text-gray-500 mt-2">Cantik yaa~</p>
+        </a>
+
+        <!-- Scene 5 -->
+        <a href="teks.html" class="card-link bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl">
+          <div class="text-5xl mb-4">💌</div>
+          <h2 class="text-2xl font-bold text-[#ffd700] mb-2">Scene 5</h2>
+          <p class="text-gray-600 font-semibold">Pesan Khusus</p>
+          <p class="text-sm text-gray-500 mt-2">Music + Message</p>
+        </a>
+
+        <!-- Full Flow -->
+        <a href="liakss.html" class="card-link bg-gradient-to-r from-green-400 to-blue-500 rounded-2xl p-8 shadow-lg hover:shadow-2xl col-span-1 md:col-span-3">
+          <div class="text-5xl mb-4">🚀</div>
+          <h2 class="text-2xl font-bold text-white mb-2">🎉 Mulai dari Awal 🎉</h2>
+          <p class="text-white font-semibold">Full Experience - Scene 1 ke Scene 5</p>
+        </a>
+      </div>
+
+      <div class="mt-12 text-white text-center">
+        <p class="text-sm opacity-75 mb-2">💡 Tip: Buka halaman dalam mode fullscreen untuk pengalaman terbaik!</p>
+        <p class="text-xs opacity-50">Made with 💝 for Liaa Marsyaa's Birthday</p>
+      </div>
+    </div>
   </div>
 
   <script src="js/index.js"></script>

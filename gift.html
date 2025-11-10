@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Box 🎁</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #ffe5ec;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Gift box styles */
+        .gift-container {
+            position: relative;
+            width: 320px;
+            height: 360px;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+
+        /* Main gift box wrapper */
+        .gift-box-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            animation: giftBobbing 3s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+
+        .gift-box-wrapper.opened {
+            animation: giftOpen 0.8s ease-out forwards;
+        }
+
+        .gift-box-wrapper:active {
+            animation: none;
+            transform: scale(0.95) !important;
+        }
+
+        /* Gift box canvas */
+        .gift-box-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            filter: drop-shadow(0 20px 60px rgba(255, 143, 171, 0.4));
+        }
+
+        /* Bobbing animation */
+        @keyframes giftBobbing {
+            0%, 100% {
+                transform: translateY(0px) rotateZ(0deg);
+            }
+            25% {
+                transform: translateY(-25px) rotateZ(1deg);
+            }
+            50% {
+                transform: translateY(0px) rotateZ(0deg);
+            }
+            75% {
+                transform: translateY(-25px) rotateZ(-1deg);
+            }
+        }
+
+        /* Gift open animation */
+        @keyframes giftOpen {
+            0% {
+                transform: scaleY(1) rotateZ(0deg);
+            }
+            50% {
+                transform: scaleY(0.3) rotateZ(5deg);
+            }
+            100% {
+                transform: scaleY(0) rotateZ(0deg) translateY(-80px);
+                opacity: 0;
+            }
+        }
+
+        /* Instruction text */
+        .instruction {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ff8fab;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            animation: fadeInDown 0.8s ease-out;
+            z-index: 1;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* Better confetti */
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+            animation: confettiFall 2.5s ease-out forwards;
+        }
+
+        .confetti-piece {
+            width: 12px;
+            height: 12px;
+            display: block;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotateZ(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Enhanced spark effect */
+        .spark {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkShine 1.2s ease-out forwards;
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        @keyframes sparkShine {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Instructions text */
+        .info-text {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ff8fab;
+            font-size: 16px;
+            font-weight: 600;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out 0.5s forwards;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Transition animation */
+        .swipe-out {
+            animation: swipeDown 0.8s ease-in-out forwards;
+        }
+
+        @keyframes swipeDown {
+            0% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main content -->
+    <div class="flex flex-col items-center justify-center h-screen w-full">
+        <p class="instruction text-3xl font-bold">Klik hadiah nyaa!</p>
+        
+        <div class="gift-container" id="giftBox">
+            <div class="gift-box-wrapper" id="giftBoxWrapper">
+                <!-- Gift Box - Video Render -->
+                <video id="giftVideo" class="gift-box-canvas" muted playsinline>
+                    <source src="./assets/gift.webm" type="video/webm">
+                </video>
+            </div>
+        </div>
+
+        <p class="info-text">Klik untuk buka! 🎉</p>
+    </div>
+
+    <script>
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playChimeSound() {
+            const now = audioContext.currentTime;
+            const notes = [1046.50, 1318.51, 1567.98]; // C6, E6, G6
+            
+            notes.forEach((freq, index) => {
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+
+                osc.frequency.setValueAtTime(freq, now);
+                gain.gain.setValueAtTime(0.3, now + index * 0.1);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + index * 0.1 + 0.3);
+
+                osc.start(now + index * 0.1);
+                osc.stop(now + index * 0.1 + 0.3);
+            });
+        }
+
+        // Play confetti explosion sound
+        function playConfettiExplosion() {
+            const now = audioContext.currentTime;
+            
+            // Create explosive burst sound with multiple frequencies
+            for (let i = 0; i < 3; i++) {
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                const filter = audioContext.createBiquadFilter();
+
+                osc.connect(filter);
+                filter.connect(gain);
+                gain.connect(audioContext.destination);
+
+                // Random frequency for each burst
+                osc.frequency.setValueAtTime(200 + Math.random() * 400, now + i * 0.05);
+                osc.frequency.exponentialRampToValueAtTime(50, now + i * 0.05 + 0.1);
+
+                gain.gain.setValueAtTime(0.4, now + i * 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.05 + 0.1);
+
+                osc.start(now + i * 0.05);
+                osc.stop(now + i * 0.05 + 0.1);
+            }
+        }
+
+        // Create confetti with multiple colors
+        function createConfetti() {
+            const confettiCount = 80;
+            const giftBox = document.getElementById('giftBox');
+            const rect = giftBox.getBoundingClientRect();
+            const colors = ['#ffd700', '#ff8fab', '#fb6f92', '#ffe5ec', '#ffed4e'];
+
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                
+                const size = 8 + Math.random() * 8;
+                confetti.style.width = size + 'px';
+                confetti.style.height = size + 'px';
+                confetti.style.left = (rect.left + rect.width / 2) + 'px';
+                confetti.style.top = (rect.top + rect.height / 2) + 'px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                
+                const duration = 2 + Math.random() * 1.5;
+                confetti.style.animation = `confettiFall ${duration}s ease-out forwards`;
+                
+                const angle = (Math.PI * 2 * i) / confettiCount;
+                const velocity = 200 + Math.random() * 300;
+                const x = Math.cos(angle) * velocity;
+                const y = (Math.sin(angle) * velocity) - (Math.random() * 200);
+                
+                confetti.style.transform = `translate(${x}px, ${y}px) rotate(${Math.random() * 720}deg)`;
+                document.body.appendChild(confetti);
+
+                // Remove element after animation
+                setTimeout(() => confetti.remove(), duration * 1000);
+            }
+        }
+
+        // Create spark effects with rainbow colors
+        function createSparks() {
+            const sparkCount = 50;
+            const giftBox = document.getElementById('giftBox');
+            const rect = giftBox.getBoundingClientRect();
+            const sparkColors = ['#ff6b9d', '#ff8fab', '#ffd700', '#ffed4e', '#fb6f92'];
+
+            for (let i = 0; i < sparkCount; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'spark';
+                spark.style.left = (rect.left + rect.width / 2) + 'px';
+                spark.style.top = (rect.top + rect.height / 2) + 'px';
+                spark.style.color = sparkColors[Math.floor(Math.random() * sparkColors.length)];
+                spark.style.backgroundColor = spark.style.color;
+                
+                const angle = (Math.PI * 2 * i) / sparkCount;
+                const distance = 150 + Math.random() * 200;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                
+                spark.style.setProperty('--tx', tx + 'px');
+                spark.style.setProperty('--ty', ty + 'px');
+                document.body.appendChild(spark);
+
+                // Remove element after animation
+                setTimeout(() => spark.remove(), 1200);
+            }
+        }
+
+        // Gift box click handler
+        document.getElementById('giftBox').addEventListener('click', function() {
+            const giftBoxWrapper = document.getElementById('giftBoxWrapper');
+            const giftVideo = document.getElementById('giftVideo');
+            
+            // Prevent multiple clicks
+            if (giftBoxWrapper.classList.contains('opened')) {
+                return;
+            }
+
+            // Play sounds
+            playChimeSound();
+            playConfettiExplosion();
+
+            // Play video animation
+            if (giftVideo) {
+                giftVideo.currentTime = 0; // Reset to start
+                giftVideo.play().catch(err => console.log('Video play error:', err));
+            }
+
+            // Create explosion effect
+            setTimeout(() => {
+                createConfetti();
+                createSparks();
+            }, 200);
+
+            // Close the box
+            setTimeout(() => {
+                giftBoxWrapper.classList.add('opened');
+            }, 800);
+
+            // Disable clicking
+            this.style.pointerEvents = 'none';
+            
+            // Transition to flower page
+            setTimeout(() => {
+                const body = document.body;
+                body.classList.add('swipe-out');
+                
+                setTimeout(() => {
+                    window.location.href = 'flower.html';
+                }, 800);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>

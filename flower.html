@@ -6,10 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="images/gift.png" type="image/x-icon">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/flower.css">
 
   <!-- Document Title -->
-  <title>FLOWERS</title>
+  <title>Flower for uuu</title>
 </head>
 
 <body class="not-loaded">
@@ -314,11 +314,77 @@
     </div>
   </div>
 
-  <!-- Title -->
-  <h1 class="title"><span id="title"></span></h1>
+  <!-- Title (hidden initially, will be shown by JS) -->
+  <div id="flower-message" style="opacity: 0; animation: fadeInText 1s ease-out 4.5s forwards;">
+    <p style="font-family: 'Poppins', sans-serif; font-size: 28px; color: #ff69b4; text-shadow: 0 0 20px rgba(255, 105, 180, 0.6); font-weight: 600;">
+      Wah bunga nyaa cantik yaa~ 🌸✨
+    </p>
+    <p style="font-family: 'Poppins', sans-serif; font-size: 22px; color: #ff1493; text-shadow: 0 0 15px rgba(255, 20, 147, 0.5); font-weight: 500; margin-top: 10px;">
+      Engga kalah cantik sama yang lagi ultah hehee 🫣
+    </p>
+  </div>
+
+  <!-- Next button (hidden initially) -->
+  <div id="next-button" style="opacity: 0; animation: fadeInButton 0.8s ease-out 5.5s forwards;">
+    <button onclick="goToLongText()" style="font-family: 'Poppins', sans-serif; padding: 12px 30px; background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%); color: #fff; border: none; border-radius: 25px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(255, 20, 147, 0.6)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(255, 20, 147, 0.4)'">
+      Lanjut ➜
+    </button>
+  </div>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+    @keyframes fadeInText {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInButton {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes swipeUp {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-100%);
+      }
+    }
+  </style>
+
 </body>
 
 </html>
 
 <!-- Import Javascript -->
-<script src="js/main.js"></script>
+<script src="js/flower.js"></script>
+<script>
+  function goToLongText() {
+    const body = document.body;
+    body.style.animation = 'swipeUp 0.8s ease-in-out forwards';
+    setTimeout(() => {
+      window.location.href = 'teks.html';
+    }, 800);
+  }
+
+  // Remove not-loaded class to start animations
+  window.addEventListener('load', function() {
+    document.body.classList.remove('not-loaded');
+  });
+</script>
